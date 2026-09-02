@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Career OS"
+description = "A personalized career command center for discovering roles, practicing skills, preparing for interviews, and tracking progress."
+version = "1.0.0"
+id = "artifacts/career-os"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22227
+
+[services.development]
+run = "pnpm --filter @workspace/career-os run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/career-os", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/career-os/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22227"
+BASE_PATH = "/"
